@@ -1,7 +1,7 @@
 """modulo responsavel pela interpretacao e devolucao das paginas
 """
-from django.shortcuts import HttpResponse  # , render
-
+from django.shortcuts import HttpResponse, render  # , redirect
+from meu_app.models import Evento
 
 # Create your views here.
 def hello(_):
@@ -25,3 +25,17 @@ def soma(_, numeroa: int, numerob: int):
     """
     total = numeroa + numerob
     return HttpResponse(f'A soma dos parametros é {total}')
+
+
+def lista_eventos(request):
+    """funcao que lista os eventos agendados
+    """
+    evento = Evento.objects.all()  # get(id=1)
+    # usuario = request.user
+    # evento = Evento.objects.filter(usuario=usuario)
+    dados = {'eventos': evento}
+    return render(request, 'agenda.html', dados)
+
+
+# def index(_):
+#     return redirect('/agenda/')
