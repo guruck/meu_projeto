@@ -1,0 +1,47 @@
+body{
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #DDD;
+}
+
+.form-login{
+  flex-basis: 450px;
+}
+
+.login-card .card-header{
+  display: flex;
+  justify-content:center;
+  align-items: center;
+  font-size: 1.4rem;
+}
+
+.login-card .card-footer{
+  display: flex;
+  justify-content:flex-end;
+
+}
+
+.erros{
+  display: table;
+  justify-content: flex-start;
+  width: 250px;
+  height: 48px;
+  margin-right: 50px;
+}
+
+.erros > p{
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+  color: white;
+  font-weight: 300;
+  background-color: red;
+  width: inherit;
+  height: inherit;
+}
+
+#alert{
+  display: flex;
+}

@@ -25,6 +25,9 @@ urlpatterns = [
     path('agenda/', views.lista_eventos),
     path('admin/', admin.site.urls),
     path('hello/', views.hello),
+    path('login/', views.login_user),
+    path('logout/', views.logout_user),
+    path('login/submit', views.submit_login),
     path('soma/<int:numeroa>/<int:numerob>', views.soma),
     # path('', views.index)
 ]

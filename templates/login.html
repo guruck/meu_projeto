@@ -1,0 +1,50 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="{% static '/css/comum.css' %}">
+    <link rel="stylesheet" href="{% static '/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static '/css/icofont.min.css' %}">
+    <link rel="stylesheet" href="{% static '/css/login.css' %}">
+    <title>Projeto Python com Django</title>
+</head>
+<body>
+  <form class="form-login" action="submit" method="POST">{% csrf_token %}
+    <div class="login-card card">
+      <div class="card-header">
+        <i class="icofont-travelling mr-3"></i>
+        <span class="font-weight-ligth">In</span>
+        <span class="font-weight-bold mx-2 mx-2">N'</span>
+        <span class="font-weight-ligth">Out</span>
+        <i class="icofont-runner-alt-1 ml-3"></i>
+      </div>
+      <div class="card-body">
+        <div class="form-group">
+          <label for="username">UserName</label>
+          <input type="text" name="username" id="username" class="form-control" placeholder="Informe o usuario" value="" autofocus/>
+        </div>
+        <div class="form-group">
+          <label for="password">Senha</label>
+          <input type="password" name="password" id="password" class="form-control" />
+        </div>
+        {% for message in messages %}
+          <div id="alert" class="invalid-feedback" role="alert">
+            {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+      <div class="card-footer">
+        <div class="botao">
+          <button class="btn btn-lg btn-primary">Entrar</button>
+        </div>
+      </div>
+    </div>
+  </form>
+  <br/>
+
+</body>
+</html>
