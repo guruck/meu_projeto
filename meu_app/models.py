@@ -19,3 +19,22 @@ class Evento(models.Model):
     
     def get_data_evento(self):
         return self.data_evento.strftime('%d/%m/%Y %H:%M')
+
+
+# Create your models here.
+class Menu(models.Model):
+    name = models.CharField(max_length=50, null=False)
+    ico = models.CharField(max_length=50, null=True)
+    elevate = models.BooleanField(null=False, default=False)
+    page = models.CharField(max_length=50, null=False)
+    ativo = models.BooleanField(null=False, default=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'menus'
+
+    def __str__(self):
+        return self.name
+
+    def get_data_evento(self):
+        return self.updated.strftime('%d/%m/%Y %H:%M')

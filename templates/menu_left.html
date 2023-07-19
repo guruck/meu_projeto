@@ -2,15 +2,22 @@
   <nav class="menu mt-3">
     <ul class="nav-list">
     {% for menu in menus %}
-      <!-- <?php if(($user->is_admin >= $menu->elevate) && $menu->ativo): ?> -->
+      {% if user.is_superuser and menu.elevate and menu.ativo %}
         <li class="nav-item">
-          <a href="<?= $menu->page ?>">
-            <i class="<?= $menu->ico ?> mr-2"></i>
-            <?= $menu->name ?>
+          <a href="{{ menu.page }}">
+            <i class="{{ menu.ico}} mr-2"></i>
+            {{ menu.name }}
           </a>
         </li>
-      <!-- <?php endif ?> -->
-    {% endforeach %}
+      {% elif not menu.elevate and menu.ativo %}
+        <li class="nav-item">
+          <a href="{{ menu.page }}">
+            <i class="{{ menu.ico}} mr-2"></i>
+            {{ menu.name }}
+          </a>
+        </li>
+      {% endif %}
+    {% endfor %}
     </ul>
   </nav>
   <div class="sidebar-widgets">
@@ -18,7 +25,7 @@
       <i class="icon icofont-hour-glass text-primary"></i>
       <div class="info">
         <span class="main text-primary" active-clock="true">
-          workedInterval
+          21:00:00
         </span>
         <span class="lable text-mute">
           Horas Trabalhadas

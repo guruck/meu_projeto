@@ -2,11 +2,41 @@
 
 {% block content %}
   <main class="content">
-    <h2>Agendamentos</h2>
-    <ul>
+    {% include "model-titulo.html" %}
+    <a class="btn btn-lg btn-primary mb-3"
+    href="/agenda/evento">Novo Evento</a>
+    <table class="table table-bordered table-striped table-hover">
+      <thead>
+        <th>Titulo</th>
+        <th>Descrição</th>
+        <th>Evento Em</th>
+        <th>Criado Em</th>
+        <th>Responsavel</th>
+        <th>Ações</th>
+      </thead>
+      <tbody>
       {% for evento in eventos %}
-        <li>{{ evento.get_data_evento }} - {{ evento.titulo }} - {{ evento.usuario }} </li>
+      <tr>
+        <td>{{ evento.titulo }}</td>
+        <td>{{ evento.descricao }}</td>
+        <td>{{ evento.get_data_evento }}</td>
+        <td>{{ evento.data_criacao }}</td>
+        <td>{{ evento.usuario }}</td>
+        <td>
+          {% if user.is_superuser %}
+            <a href="/agenda/evento/{{ evento.id }}/edit"
+              class="btn btn-warning rounded-circle mr-2">
+              <i class="icofont-edit"></i>
+            </a>
+            <a href="/agenda/evento/{{ evento.id }}/delete"
+              class="btn btn-danger rounded-circle">
+              <i class="icofont-trash"></i>
+            </a>
+          {% endif %}
+        </td>
+      </tr>
       {% endfor %}
-    </ul>
+    </tbody>
+  </table>
   </main>
 {% endblock %}

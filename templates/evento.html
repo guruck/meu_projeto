@@ -1,0 +1,58 @@
+{% extends "model-page.html" %}
+
+{% block content %}
+  <main class="content">
+    {% include "model-titulo.html" %}
+
+    <form action="evento/submit" method="post">{% csrf_token %}
+      <input type="hidden" name="id" value="{{ evento.id }}">
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="evtitulo">Titulo</label>
+          <input type="text" id="evtitulo" name="evtitulo" placeholder="Informe o titulo"
+            class="form-control {% if errors.titulo %}'is-invalid'{% else %}''{% endif %}"
+            value="{{ evento.titulo }}">
+          <div class="invalid-feedback">
+            {{ errors.titulo }}
+          </div>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="descricao">Descrição</label>
+          <textarea id="descricao" name="descricao" placeholder="Informe a descrição"
+            class="form-control {% if errors.descricao %}'is-invalid'{% else %}''{% endif %}"
+            value="{{ evento.descricao }}"></textarea>
+          <div class="invalid-feedback">
+            {{ errors.descricao }}
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="data_evento">Data do Evento</label>
+          <input type="datetime-local" id="data_evento" name="data_evento"
+            class="form-control {% if errors.data_evento %}'is-invalid'{% else %}''{% endif %}"
+            value="evento.data_evento">
+          <div class="invalid-feedback">
+            {{ errors.data_evento }}
+          </div>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="data_criacao">Data de Criação</label>
+          <input type="datetime-local" id="data_criacao" name="data_criacao"
+            class="form-control {% if errors.data_criacao %}'is-invalid'{% else %}''{% endif %}"
+            value="evento.data_criacao" disabled>
+          <div class="invalid-feedback">
+            {{ errors.data_criacao }}
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <button class="btn btn-primary btn-lg">Salvar</button>
+        <!-- <a href="/menu" class="btn btn-secondary btn-lg">Cancelar</a> -->
+        <a href="/agenda" class="btn btn-secondary btn-lg">Cancelar</a>
+      </div>
+    </form>
+
+  </main>
+{% endblock %}
