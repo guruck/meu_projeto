@@ -263,3 +263,10 @@ footer.footer{
 .summary-box .value {
   font-size: 2rem;
 }
+
+.erros{
+  color: white;
+  font-weight: 300;
+  background-color: red;
+}
+

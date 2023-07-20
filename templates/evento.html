@@ -4,7 +4,7 @@
   <main class="content">
     {% include "model-titulo.html" %}
 
-    <form action="evento/submit" method="post">{% csrf_token %}
+    <form action="/agenda/evento/submit" method="post">{% csrf_token %}
       <input type="hidden" name="id" value="{{ evento.id }}">
       <div class="form-row">
         <div class="form-group col-md-6">
@@ -19,8 +19,7 @@
         <div class="form-group col-md-6">
           <label for="descricao">Descrição</label>
           <textarea id="descricao" name="descricao" placeholder="Informe a descrição"
-            class="form-control {% if errors.descricao %}'is-invalid'{% else %}''{% endif %}"
-            value="{{ evento.descricao }}"></textarea>
+            class="form-control {% if errors.descricao %}'is-invalid'{% else %}''{% endif %}">{{ evento.descricao }}</textarea>
           <div class="invalid-feedback">
             {{ errors.descricao }}
           </div>
@@ -31,7 +30,7 @@
           <label for="data_evento">Data do Evento</label>
           <input type="datetime-local" id="data_evento" name="data_evento"
             class="form-control {% if errors.data_evento %}'is-invalid'{% else %}''{% endif %}"
-            value="evento.data_evento">
+            value="{{ evento.get_data_evento_input }}">
           <div class="invalid-feedback">
             {{ errors.data_evento }}
           </div>
@@ -40,7 +39,7 @@
           <label for="data_criacao">Data de Criação</label>
           <input type="datetime-local" id="data_criacao" name="data_criacao"
             class="form-control {% if errors.data_criacao %}'is-invalid'{% else %}''{% endif %}"
-            value="evento.data_criacao" disabled>
+            value="{{ evento.get_data_criacao_input }}" disabled>
           <div class="invalid-feedback">
             {{ errors.data_criacao }}
           </div>

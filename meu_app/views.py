@@ -39,7 +39,7 @@ def soma(_, numeroa: int, numerob: int):
 
 
 @login_required(login_url='/login/')
-def lista_eventos(request):
+def lista_eventos(request, **kargs):
     """funcao que lista os eventos agendados
     """
     # evento = Evento.objects.all()  # get(id=1)
@@ -49,6 +49,9 @@ def lista_eventos(request):
             "titulo": "Cadastro de Eventos",
             "subtitulo": "Mantenha os dados dos eventos atualizados"}
     dados.update(get_base(**args))
+    if kargs.get('message'):
+        dados['message'] = kargs.get('message')
+
     return render(request, 'agenda.html', dados)
 
 @login_required(login_url='/login/')
@@ -63,16 +66,29 @@ def submit_evento(request):
         usuario = request.user
 
         if auxid:
-            evento = Evento.objects.filter(id=auxid)
-            data_criacao = request.POST.get('data_criacao')
+            Evento.objects.filter(id=auxid, usuario=usuario).update(
+                titulo=titulo, descricao=descricao, data_evento=data_evento,
+            )
         else:
             Evento.objects.create(titulo=titulo,
                                   descricao=descricao,
                                   data_evento=data_evento,
                                   usuario=usuario)
-
     return redirect('/')
 
+@login_required(login_url='/login/')
+def delete_evento(request, id_evento):
+    """funcao que lista os eventos agendados
+    """
+    usuario = request.user
+    try:
+        evento = Evento.objects.get(id=id_evento)
+        if usuario == evento.usuario:
+            evento.delete()
+    except Exception as e:
+        return lista_eventos(request, **{'message': e})
+
+    return redirect('/')
 
 def login_user(request):
     return render(request, 'login.html')
@@ -84,11 +100,13 @@ def logout_user(request):
 
 
 @login_required(login_url='/login/')
-def evento(request):
+def evento(request, id_evento: int = None):
     args = {"icon": "icofont-navigation-menu",
-        "titulo": "Cadastro de Eventos",
-        "subtitulo": "Crie e atualize o evento"}
-    return render(request, 'evento.html', get_base(**args))
+            "titulo": "Cadastro de Eventos",
+            "subtitulo": "Crie e atualize o evento"}
+    if id_evento is not None:
+        args["evento"] = Evento.objects.get(id=id_evento)
+    return render(request, 'evento.html', args)
 
 
 def submit_login(request):
