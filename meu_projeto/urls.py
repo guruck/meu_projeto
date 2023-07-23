@@ -23,6 +23,8 @@ from meu_app import views
 urlpatterns = [
     path('', RedirectView.as_view(url='/agenda')),
     path('agenda/', views.lista_eventos),
+    path('agenda/lista', views.json_lista_eventos),
+    path('agenda/lista/<int:id_usuario>', views.json_lista_eventos),
     path('agenda/evento', views.evento),
     path('agenda/evento/submit', views.submit_evento),
     path('agenda/evento/<int:id_evento>/delete', views.delete_evento),

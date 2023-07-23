@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import datetime, timedelta, timezone
 
 
 # Create your models here.
@@ -22,6 +23,10 @@ class Evento(models.Model):
 
     def get_data_evento_input(self):
         return self.data_evento.strftime('%Y-%m-%dT%H:%M')
+
+    def get_evento_atrasado(self):
+        # .replace(tzinfo=timezone(offset=timedelta()))
+        return self.data_evento < datetime.now()
 
     def get_data_criacao_input(self):
         return self.data_criacao.strftime('%Y-%m-%dT%H:%M')

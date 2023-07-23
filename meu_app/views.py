@@ -1,10 +1,15 @@
 """modulo responsavel pela interpretacao e devolucao das paginas
 """
+from datetime import datetime, timedelta
 from django.shortcuts import HttpResponse, render, redirect
-from meu_app.models import Evento, Menu
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.http import JsonResponse
+from django.http.response import Http404
+
+from meu_app.models import Evento, Menu
 
 
 def get_base(**kwargs):
@@ -43,7 +48,9 @@ def lista_eventos(request, **kargs):
     """funcao que lista os eventos agendados
     """
     # evento = Evento.objects.all()  # get(id=1)
-    evento = Evento.objects.filter(usuario=request.user)
+    data_atual = datetime.now() - timedelta(hours=1)
+    evento = Evento.objects.filter(usuario=request.user,
+                                   data_evento__gt=data_atual)
     dados = {'eventos': evento}
     args = {"icon": "icofont-navigation-menu",
             "titulo": "Cadastro de Eventos",
@@ -85,6 +92,8 @@ def delete_evento(request, id_evento):
         evento = Evento.objects.get(id=id_evento)
         if usuario == evento.usuario:
             evento.delete()
+        else:
+            raise Http404('Não mexa no que não é seu')
     except Exception as e:
         return lista_eventos(request, **{'message': e})
 
@@ -120,6 +129,21 @@ def submit_login(request):
             messages.error(request, "Usuario ou senha invalido")
     return redirect('/')
 
-
+# @login_required(login_url='/login/')
+def json_lista_eventos(request, **kargs):
+    """funcao que lista os eventos agendados
+    """
+    evento = []
+    if kargs.get('id_usuario'):
+        try:
+            usuario = User.objects.get(id=kargs.get('id_usuario'))
+            evento = Evento.objects.filter(usuario=usuario).values(
+                'id', 'titulo', 'data_evento', 'usuario')
+        except Exception as e:
+            return JsonResponse({'status': 404, 'message': f'{e}'}, status=404)
+    else:
+        evento = Evento.objects.all().values(
+            'id', 'titulo', 'data_evento', 'usuario')
+    return JsonResponse(list(evento), safe=False)
 # def index(_):
 #     return redirect('/agenda/')

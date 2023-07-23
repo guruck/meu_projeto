@@ -16,8 +16,8 @@
       </thead>
       <tbody>
       {% for evento in eventos %}
-      <tr>
-        <td>{{ evento.titulo }}</td>
+      <tr {% if evento.get_evento_atrasado %}style="color:red"{% endif %}>
+        <td >{{ evento.titulo }}</td>
         <td>{{ evento.descricao }}</td>
         <td>{{ evento.get_data_evento }}</td>
         <td>{{ evento.data_criacao }}</td>
